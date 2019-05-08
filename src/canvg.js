@@ -1394,6 +1394,14 @@ function build(opts) {
   svg.Element.polyline = function (node) {
     this.base = svg.Element.PathElementBase;
     this.base(node);
+    var refX = parseFloat(this.attribute('refX').value);
+    var refY = parseFloat(this.attribute('refY').value);
+    this.children.forEach(child => {
+      child.points.forEach(point => {
+        point.x -= refX;
+        point.y -= refY;
+      });
+    });
 
     this.points = svg.CreatePath(this.attribute('points').value);
     this.path = function (ctx) {
